@@ -1,5 +1,5 @@
-import { AtualizarUsuarioDTO } from "../../models/DTO/AtualizarUsuarioDTO";
-import { CriarUsuarioDTO } from "../../models/DTO/CriarUsuarioDTO";
+import { AtualizarUsuarioDTO } from '@src/models/DTO/AtualizarUsuarioDTO';
+import { CriarUsuarioDTO } from '@src/models/DTO/CriarUsuarioDTO';
 
 export const UsuarioService = {
   buscarUsuarios: (id: number) => `usuário: ${id}`,
