@@ -1,4 +1,3 @@
-import jwt, { JWTPayloadSpec } from "@elysiajs/jwt"
 import { PrismaClient } from "@prisma/client"
 import { Cookie, error } from "elysia"
 import { jwtType } from "../types/jwt"
@@ -6,7 +5,7 @@ import { jwtType } from "../types/jwt"
 const db = new PrismaClient()
 
 export const authService = {
-  autenticarUsuario: async (body: { email: string; senha: string}, auth: Cookie<any>, jwt: jwtType) => {
+  autenticarUsuario: async (body: { email: string; senha: string }, auth: Cookie<any>, jwt: jwtType) => {
     const usuario = await db.user.findFirst({
       where: {
         email: body.email
@@ -21,7 +20,7 @@ export const authService = {
     })
     return `Sign in as ${auth.value}`
   },
-  validarUsuario: async (jwt: jwtType, auth: Cookie<any>)  => {
+  validarUsuario: async (jwt: jwtType, auth: Cookie<any>) => {
     const profile = await jwt.verify(auth.value);
     if (!profile) return error(401, 'Unauthorized');
     return profile;
