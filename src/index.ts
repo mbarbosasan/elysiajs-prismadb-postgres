@@ -19,16 +19,6 @@ const app = new Elysia()
     })
   })
   .get('/profile', async ({ jwt, cookie: { auth } }) => authService.validarUsuario(jwt, auth))
-  .guard({
-    async beforeHandle({ jwt, set, cookie: { auth } }) {
-      try {
-        console.log(auth)
-        return await authService.validarUsuario(jwt, auth)
-      } catch (e) {
-        return (set.status = 'Unauthorized')
-      }
-    }
-  })
   .group('/usuarios', (app) =>
     app
       .get("/:id", ({ params: { id } }) => UsuarioService.buscarUsuarios(+id))

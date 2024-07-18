@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { error } from 'elysia';
+import bcrypt from 'bcrypt';
 
 const db = new PrismaClient();
 
@@ -19,6 +20,7 @@ export const UsuarioService = {
   },
   criarUsuario: async (usuario: Prisma.UserCreateInput) => {
     try {
+      usuario.password = bcrypt.hashSync(usuario.password, 10);;
       await db.user.create({
         data: usuario,
       })

@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 import { Cookie, error } from "elysia"
 import { jwtType } from "../types/jwt"
+import bcrypt from 'bcrypt'
 
 const db = new PrismaClient()
 
@@ -11,7 +12,7 @@ export const authService = {
         email: body.email
       }
     })
-    if (!usuario || usuario && usuario.password !== body.senha) return error(400, 'Email ou senha incorreta ou inexistente, verifique e tente novamente.')
+    if (!usuario || (usuario && !await bcrypt.compare(body.senha, usuario!.password))) return error(400, 'Email ou senha incorreta ou inexistente, verifique e tente novamente.')
     auth.set({
       value: await jwt.sign(body),
       httpOnly: true,
