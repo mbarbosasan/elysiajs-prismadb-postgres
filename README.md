@@ -1,15 +1,10 @@
-# Elysia with Bun runtime
+# ElysiaJS + PrismaDB + Postgres
 
 ## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
-```
+
+Apenas uma POC com um CRUD de Usuários com autenticação via Tokens JWT para explorar o ElysiaJS (que é muito bom, a tipagem é absurda.)
 
 ## Development
-To start the development server run:
 ```bash
 bun run dev
 ```
-
-Open http://localhost:3000/ with your browser to see the result.
