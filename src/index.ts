@@ -1,5 +1,5 @@
 import jwt from "@elysiajs/jwt";
-import { Elysia, t } from "elysia";
+import { Elysia, error, t } from "elysia";
 import { authService } from "./services/auth.service";
 import { UsuarioModel } from "./models/UsuarioModel";
 import { UsuarioService } from "./services/usuario.service";
@@ -12,6 +12,11 @@ const app = new Elysia()
     })
   )
   .use(UsuarioModel)
+  .onBeforeHandle(async ({ jwt, cookie: { auth }, path}) => {
+    if (path.includes('/auth')) return;
+    const profile = await jwt.verify(auth.value);
+    if (!profile) return error(401, 'Unauthorized');
+  })
   .post('/auth', async ({ jwt, cookie: { auth }, body }) => authService.autenticarUsuario(body, auth, jwt), {
     body: t.Object({
       email: t.String(),
@@ -27,7 +32,7 @@ const app = new Elysia()
       })
       .patch('/:id', ({ body, params }) => UsuarioService.atualizarUsuario(body, +params['id']), {
         body: 'usuario.atualizar'
-      })
+      }),
   )
   .listen(3000);
 console.log(
